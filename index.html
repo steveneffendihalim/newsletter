@@ -18,8 +18,6 @@
     --accent: #2D5A3D;
     --accent-light: #EAF2EC;
     --accent-border: #B8D4BE;
-    --danger: #8B2E2E;
-    --danger-light: #F5EAEA;
     --user-bg: #2D5A3D;
     --user-text: #FFFFFF;
     --agent-bg: #FFFFFF;
@@ -27,811 +25,612 @@
     --font-body: 'Helvetica Neue', 'Arial', sans-serif;
   }
 
-  body {
-    font-family: var(--font-body);
-    background: var(--bg);
-    color: var(--text-primary);
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-  }
+  body { font-family: var(--font-body); background: var(--bg); color: var(--text-primary); min-height: 100vh; display: flex; flex-direction: column; }
 
-  header {
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    padding: 1rem 1.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: sticky;
-    top: 0;
-    z-index: 10;
-  }
+  header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 1rem 1.5rem; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 10; }
 
   .header-left { display: flex; align-items: center; gap: 12px; }
+  .logo { font-family: var(--font-display); font-size: 18px; color: var(--accent); letter-spacing: -0.3px; }
+  .logo span { color: var(--text-muted); font-style: italic; font-size: 14px; margin-left: 6px; }
 
-  .logo {
-    font-family: var(--font-display);
-    font-size: 18px;
-    color: var(--accent);
-    letter-spacing: -0.3px;
-  }
+  .phase-badge { font-size: 11px; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase; padding: 3px 10px; border-radius: 20px; background: var(--accent-light); color: var(--accent); border: 1px solid var(--accent-border); }
 
-  .logo span {
-    color: var(--text-muted);
-    font-style: italic;
-    font-size: 14px;
-    margin-left: 6px;
-  }
-
-  .phase-badge {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.8px;
-    text-transform: uppercase;
-    padding: 3px 10px;
-    border-radius: 20px;
-    background: var(--accent-light);
-    color: var(--accent);
-    border: 1px solid var(--accent-border);
-    transition: all 0.3s;
-  }
-
-  .reset-btn {
-    font-size: 12px;
-    color: var(--text-muted);
-    background: none;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 5px 12px;
-    cursor: pointer;
-    font-family: var(--font-body);
-    transition: all 0.2s;
-  }
-
+  .reset-btn { font-size: 12px; color: var(--text-muted); background: none; border: 1px solid var(--border); border-radius: 6px; padding: 5px 12px; cursor: pointer; font-family: var(--font-body); transition: all 0.2s; }
   .reset-btn:hover { border-color: var(--border-strong); color: var(--text-secondary); }
 
-  .chat-container {
-    flex: 1;
-    overflow-y: auto;
-    padding: 2rem 1rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-    max-width: 720px;
-    width: 100%;
-    margin: 0 auto;
-  }
+  .main-content { flex: 1; display: flex; flex-direction: column; }
+
+  /* Form screen */
+  .form-screen { flex: 1; overflow-y: auto; padding: 2rem 1rem; max-width: 680px; width: 100%; margin: 0 auto; }
+
+  .form-intro { margin-bottom: 2rem; }
+  .form-intro h2 { font-family: var(--font-display); font-size: 22px; color: var(--text-primary); margin-bottom: 0.5rem; }
+  .form-intro p { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
+
+  .category-toggle { display: flex; gap: 8px; margin-bottom: 2rem; }
+  .cat-btn { flex: 1; padding: 0.75rem; border: 1px solid var(--border); border-radius: 10px; background: var(--surface); font-family: var(--font-body); font-size: 14px; color: var(--text-secondary); cursor: pointer; transition: all 0.2s; text-align: center; }
+  .cat-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
+  .cat-btn:hover:not(.active) { border-color: var(--accent); color: var(--accent); }
+
+  .cat-desc { font-size: 13px; color: var(--text-muted); margin-bottom: 1.5rem; padding: 0.75rem 1rem; background: var(--accent-light); border-radius: 8px; border: 1px solid var(--accent-border); line-height: 1.5; }
+
+  .questions-list { display: flex; flex-direction: column; gap: 1.25rem; margin-bottom: 1.5rem; }
+
+  .question-item label { display: block; font-size: 13.5px; font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem; line-height: 1.4; }
+  .question-item .q-hint { font-size: 12px; color: var(--text-muted); margin-bottom: 0.5rem; font-weight: 400; }
+
+  .question-item textarea { width: 100%; font-family: var(--font-body); font-size: 14px; color: var(--text-primary); background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 0.75rem 1rem; resize: vertical; min-height: 80px; outline: none; transition: border-color 0.2s; line-height: 1.6; }
+  .question-item textarea:focus { border-color: var(--accent); }
+  .question-item textarea::placeholder { color: var(--text-muted); }
+
+  .submit-btn { width: 100%; background: var(--accent); color: white; border: none; border-radius: 10px; padding: 1rem; font-size: 15px; font-weight: 600; cursor: pointer; font-family: var(--font-body); transition: background 0.2s; margin-bottom: 2rem; }
+  .submit-btn:hover { background: #234A30; }
+  .submit-btn:disabled { background: var(--border); cursor: not-allowed; }
+
+  /* Chat screen */
+  .chat-container { flex: 1; overflow-y: auto; padding: 2rem 1rem; display: flex; flex-direction: column; gap: 1.5rem; max-width: 720px; width: 100%; margin: 0 auto; }
 
   .message { display: flex; gap: 10px; align-items: flex-start; }
-
   .message.user { flex-direction: row-reverse; }
 
-  .avatar {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 12px;
-    font-weight: 600;
-    flex-shrink: 0;
-    margin-top: 2px;
-  }
+  .avatar { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; flex-shrink: 0; margin-top: 2px; }
+  .avatar.agent { background: var(--accent-light); color: var(--accent); border: 1px solid var(--accent-border); font-family: var(--font-display); font-style: italic; }
+  .avatar.user { background: var(--user-bg); color: var(--user-text); }
 
-  .avatar.agent {
-    background: var(--accent-light);
-    color: var(--accent);
-    border: 1px solid var(--accent-border);
-    font-family: var(--font-display);
-    font-style: italic;
-  }
-
-  .avatar.user {
-    background: var(--user-bg);
-    color: var(--user-text);
-  }
-
-  .bubble {
-    max-width: 85%;
-    padding: 0.875rem 1.125rem;
-    border-radius: 12px;
-    font-size: 14.5px;
-    line-height: 1.7;
-  }
-
-  .message.agent .bubble {
-    background: var(--agent-bg);
-    border: 1px solid var(--border);
-    border-radius: 4px 12px 12px 12px;
-    color: var(--text-primary);
-  }
-
-  .message.user .bubble {
-    background: var(--user-bg);
-    color: var(--user-text);
-    border-radius: 12px 4px 12px 12px;
-  }
+  .bubble { max-width: 88%; padding: 0.875rem 1.125rem; border-radius: 12px; font-size: 14.5px; line-height: 1.75; }
+  .message.agent .bubble { background: var(--agent-bg); border: 1px solid var(--border); border-radius: 4px 12px 12px 12px; color: var(--text-primary); }
+  .message.user .bubble { background: var(--user-bg); color: var(--user-text); border-radius: 12px 4px 12px 12px; }
 
   .bubble p { margin-bottom: 0.6rem; }
   .bubble p:last-child { margin-bottom: 0; }
   .bubble strong { font-weight: 600; }
 
-  .bubble .draft-box {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-left: 3px solid var(--accent);
-    border-radius: 0 8px 8px 0;
-    padding: 1rem 1.125rem;
-    margin: 0.75rem 0;
-    font-size: 14px;
-    line-height: 1.8;
-    white-space: pre-wrap;
-    word-break: break-word;
-  }
+  .draft-header { font-size: 11px; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase; color: var(--accent); margin-bottom: 0.5rem; margin-top: 0.75rem; }
+  .draft-box { background: var(--bg); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 0 8px 8px 0; padding: 1rem 1.125rem; font-size: 14px; line-height: 1.8; white-space: pre-wrap; word-break: break-word; }
 
-  .bubble .draft-header {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.8px;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 0.5rem;
-  }
+  .critique-box { background: #FFF8F0; border: 1px solid #E8D5B8; border-left: 3px solid #C4892A; border-radius: 0 8px 8px 0; padding: 0.875rem 1rem; margin: 0.75rem 0; font-size: 13.5px; line-height: 1.7; }
+  .critique-header { font-size: 11px; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase; color: #8B6520; margin-bottom: 0.4rem; }
 
-  .copy-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 12px;
-    color: var(--accent);
-    background: var(--accent-light);
-    border: 1px solid var(--accent-border);
-    border-radius: 6px;
-    padding: 5px 12px;
-    cursor: pointer;
-    font-family: var(--font-body);
-    transition: all 0.2s;
-    margin-top: 0.5rem;
-  }
+  .action-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 0.75rem; }
+  .action-btn { font-size: 12px; color: var(--accent); background: var(--accent-light); border: 1px solid var(--accent-border); border-radius: 6px; padding: 5px 12px; cursor: pointer; font-family: var(--font-body); transition: all 0.2s; }
+  .action-btn:hover { background: var(--accent); color: white; }
+  .action-btn.copy { background: var(--accent); color: white; }
 
-  .copy-btn:hover { background: var(--accent); color: white; }
-  .copy-btn.copied { background: var(--accent); color: white; }
-
-  .critique-box {
-    background: #FFF8F0;
-    border: 1px solid #E8D5B8;
-    border-left: 3px solid #C4892A;
-    border-radius: 0 8px 8px 0;
-    padding: 0.875rem 1rem;
-    margin: 0.75rem 0;
-    font-size: 13.5px;
-    line-height: 1.7;
-  }
-
-  .critique-header {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.8px;
-    text-transform: uppercase;
-    color: #8B6520;
-    margin-bottom: 0.4rem;
-  }
-
-  .typing-indicator {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    padding: 0.5rem 0;
-  }
-
-  .typing-dots {
-    display: flex;
-    gap: 4px;
-    align-items: center;
-    background: var(--agent-bg);
-    border: 1px solid var(--border);
-    border-radius: 4px 12px 12px 12px;
-    padding: 0.75rem 1rem;
-  }
-
-  .typing-dots span {
-    width: 6px;
-    height: 6px;
-    background: var(--text-muted);
-    border-radius: 50%;
-    animation: bounce 1.2s infinite;
-  }
-
+  .typing-dots { display: flex; gap: 4px; align-items: center; background: var(--agent-bg); border: 1px solid var(--border); border-radius: 4px 12px 12px 12px; padding: 0.75rem 1rem; }
+  .typing-dots span { width: 6px; height: 6px; background: var(--text-muted); border-radius: 50%; animation: bounce 1.2s infinite; }
   .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
   .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes bounce { 0%, 60%, 100% { transform: translateY(0); } 30% { transform: translateY(-5px); } }
 
-  @keyframes bounce {
-    0%, 60%, 100% { transform: translateY(0); }
-    30% { transform: translateY(-5px); }
-  }
+  .input-area { background: var(--surface); border-top: 1px solid var(--border); padding: 1rem 1.5rem; position: sticky; bottom: 0; }
+  .input-wrapper { max-width: 720px; margin: 0 auto; display: flex; gap: 10px; align-items: flex-end; }
 
-  .input-area {
-    background: var(--surface);
-    border-top: 1px solid var(--border);
-    padding: 1rem 1.5rem;
-    position: sticky;
-    bottom: 0;
-  }
+  textarea.chat-input { flex: 1; font-family: var(--font-body); font-size: 14.5px; line-height: 1.6; color: var(--text-primary); background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 0.75rem 1rem; resize: none; min-height: 48px; max-height: 180px; overflow-y: auto; outline: none; transition: border-color 0.2s; }
+  textarea.chat-input:focus { border-color: var(--accent); }
 
-  .input-wrapper {
-    max-width: 720px;
-    margin: 0 auto;
-    display: flex;
-    gap: 10px;
-    align-items: flex-end;
-  }
-
-  textarea {
-    flex: 1;
-    font-family: var(--font-body);
-    font-size: 14.5px;
-    line-height: 1.6;
-    color: var(--text-primary);
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 0.75rem 1rem;
-    resize: none;
-    min-height: 48px;
-    max-height: 180px;
-    overflow-y: auto;
-    outline: none;
-    transition: border-color 0.2s;
-  }
-
-  textarea:focus { border-color: var(--accent); }
-  textarea::placeholder { color: var(--text-muted); }
-
-  .send-btn {
-    width: 44px;
-    height: 44px;
-    background: var(--accent);
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    transition: all 0.2s;
-  }
-
+  .send-btn { width: 44px; height: 44px; background: var(--accent); border: none; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.2s; }
   .send-btn:hover { background: #234A30; }
   .send-btn:disabled { background: var(--border); cursor: not-allowed; }
-
   .send-btn svg { width: 18px; height: 18px; fill: white; }
 
-  .quick-actions {
-    display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
-    margin-bottom: 0.75rem;
-    max-width: 720px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .quick-btn {
-    font-size: 12px;
-    color: var(--text-secondary);
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 4px 12px;
-    cursor: pointer;
-    font-family: var(--font-body);
-    transition: all 0.2s;
-    white-space: nowrap;
-  }
-
-  .quick-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
-
-  .api-setup {
-    max-width: 480px;
-    margin: 3rem auto;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 2rem;
-  }
-
-  .api-setup h2 {
-    font-family: var(--font-display);
-    font-size: 20px;
-    color: var(--accent);
-    margin-bottom: 0.5rem;
-  }
-
-  .api-setup p {
-    font-size: 13.5px;
-    color: var(--text-secondary);
-    margin-bottom: 1.5rem;
-    line-height: 1.6;
-  }
-
-  .api-setup input {
-    width: 100%;
-    font-family: var(--font-body);
-    font-size: 13.5px;
-    color: var(--text-primary);
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 0.75rem 1rem;
-    outline: none;
-    margin-bottom: 1rem;
-    transition: border-color 0.2s;
-  }
-
+  /* API Setup */
+  .api-setup { max-width: 460px; margin: 3rem auto; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 2rem; }
+  .api-setup h2 { font-family: var(--font-display); font-size: 20px; color: var(--accent); margin-bottom: 0.5rem; }
+  .api-setup p { font-size: 13.5px; color: var(--text-secondary); margin-bottom: 1.5rem; line-height: 1.6; }
+  .api-setup input { width: 100%; font-family: var(--font-body); font-size: 13.5px; color: var(--text-primary); background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 0.75rem 1rem; outline: none; margin-bottom: 0.75rem; transition: border-color 0.2s; }
   .api-setup input:focus { border-color: var(--accent); }
-
-  .api-setup button {
-    width: 100%;
-    background: var(--accent);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    padding: 0.75rem;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    font-family: var(--font-body);
-    transition: background 0.2s;
-  }
-
+  .api-setup button { width: 100%; background: var(--accent); color: white; border: none; border-radius: 8px; padding: 0.75rem; font-size: 14px; font-weight: 600; cursor: pointer; font-family: var(--font-body); }
   .api-setup button:hover { background: #234A30; }
-
-  .api-note {
-    font-size: 12px;
-    color: var(--text-muted);
-    margin-top: 0.75rem;
-    line-height: 1.5;
-  }
-
-  .error-msg {
-    font-size: 12px;
-    color: var(--danger);
-    margin-top: 0.5rem;
-  }
+  .api-note { font-size: 12px; color: var(--text-muted); margin-top: 0.75rem; line-height: 1.5; }
+  .error-msg { font-size: 12px; color: #8B2E2E; margin-bottom: 0.5rem; }
 
   @media (max-width: 600px) {
     .logo span { display: none; }
-    .chat-container { padding: 1rem 0.75rem; }
+    .form-screen, .chat-container { padding: 1rem 0.75rem; }
     .input-area { padding: 0.75rem 1rem; }
     .bubble { max-width: 92%; font-size: 14px; }
+    .category-toggle { flex-direction: column; }
   }
 </style>
 </head>
 <body>
 
+<!-- API Setup Screen -->
 <div id="setup-screen">
-  <header style="background: var(--surface); border-bottom: 1px solid var(--border); padding: 1rem 1.5rem;">
+  <header style="background:var(--surface);border-bottom:1px solid var(--border);padding:1rem 1.5rem;">
     <div class="logo">Migrasi Strategis <span>Newsletter Agent</span></div>
   </header>
-  <div style="padding: 1rem;">
+  <div style="padding:1rem;">
     <div class="api-setup">
-      <h2>Selamat datang</h2>
-      <p>Masukkan Anthropic API key kamu untuk mulai. Key ini disimpan di browser kamu saja dan tidak dikirim ke server manapun selain Anthropic.</p>
+      <h2>Selamat datang, Steven</h2>
+      <p>Masukkan Anthropic API key kamu untuk mulai. Key ini hanya tersimpan di sesi browser ini.</p>
       <input type="password" id="api-key-input" placeholder="sk-ant-api03-..." autocomplete="off" />
       <div id="api-error" class="error-msg" style="display:none;"></div>
-      <button onclick="startAgent()">Mulai Sesi Penulisan</button>
-      <p class="api-note">API key kamu hanya tersimpan di sesi browser ini dan akan hilang ketika tab ditutup. Tidak ada data yang disimpan di server.</p>
+      <button onclick="startApp()">Mulai</button>
+      <p class="api-note">Key tidak dikirim ke server manapun selain Anthropic langsung.</p>
     </div>
   </div>
 </div>
 
-<div id="chat-screen" style="display:none; flex-direction:column; min-height:100vh;">
+<!-- Main App Screen -->
+<div id="app-screen" style="display:none; flex-direction:column; min-height:100vh;">
   <header>
     <div class="header-left">
       <div class="logo">Migrasi Strategis <span>Newsletter Agent</span></div>
-      <div class="phase-badge" id="phase-label">Interview</div>
+      <div class="phase-badge" id="phase-label">Pilih Kategori</div>
     </div>
-    <button class="reset-btn" onclick="resetSession()">Sesi Baru</button>
+    <button class="reset-btn" onclick="resetToForm()">Artikel Baru</button>
   </header>
 
-  <div class="chat-container" id="chat-container"></div>
+  <div class="main-content" id="main-content">
 
-  <div class="input-area">
-    <div class="quick-actions" id="quick-actions"></div>
-    <div class="input-wrapper">
-      <textarea
-        id="user-input"
-        placeholder="Ketik balasan kamu di sini..."
-        rows="1"
-        onkeydown="handleKey(event)"
-        oninput="autoResize(this)"
-      ></textarea>
-      <button class="send-btn" id="send-btn" onclick="sendMessage()">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path d="M2 21L23 12L2 3V10L17 12L2 14V21Z"/>
-        </svg>
-      </button>
+    <!-- Form Screen -->
+    <div id="form-screen" class="form-screen">
+      <div class="form-intro">
+        <h2>Newsletter minggu ini</h2>
+        <p>Pilih kategori artikel, jawab 5 pertanyaan, lalu agent akan menganalisis dan menulis draft untuk kamu.</p>
+      </div>
+
+      <div class="category-toggle">
+        <button class="cat-btn active" id="btn-narrative" onclick="setCategory('narrative')">
+          Personal Narrative
+        </button>
+        <button class="cat-btn" id="btn-strategic" onclick="setCategory('strategic')">
+          Strategic Insight
+        </button>
+      </div>
+
+      <div class="cat-desc" id="cat-desc">
+        Cerita dan pengalaman hidup yang mengandung pelajaran. Cocok untuk artikel yang dipicu oleh sesuatu yang kamu alami, lihat, atau rasakan.
+      </div>
+
+      <div class="questions-list" id="questions-list"></div>
+
+      <button class="submit-btn" onclick="submitForm()">Analisis dan Buat Draft</button>
     </div>
+
+    <!-- Chat Screen -->
+    <div id="chat-screen" style="display:none; flex-direction:column; flex:1;">
+      <div class="chat-container" id="chat-container"></div>
+      <div class="input-area">
+        <div class="input-wrapper">
+          <textarea class="chat-input" id="user-input" placeholder="Balas atau minta revisi di sini..." rows="1"
+            onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
+          <button class="send-btn" id="send-btn" onclick="sendMessage()">
+            <svg viewBox="0 0 24 24"><path d="M2 21L23 12L2 3V10L17 12L2 14V21Z"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
 
 <script>
-let apiKey = '';
-let conversationHistory = [];
-let currentPhase = 'interview';
-let interviewCount = 0;
-let draftContent = '';
+// ─── PERMANENT CONTEXT ───────────────────────────────────────────────────────
+const STEVEN_CONTEXT = `
+TENTANG PENULIS:
+Nama: Steven Effendi Halim
+Pekerjaan: Sushi chef di Australia
+Sudah 8 tahun di Australia (sejak usia 30 tahun)
+Jalur visa: Student → Graduate 485 → COVID 408 → menunggu PR via visa 186
+Sudah eligible PR setelah 6 tahun. Waktu tunggu 186 sudah 20 bulan, belum granted.
+Punya staff di tempat kerja
+Content creator: Newsletter Migrasi Strategis (Substack) + Instagram Australia Corner
 
-const SYSTEM_PROMPT = `Kamu adalah editorial agent untuk newsletter "Migrasi Strategis" milik Steven.
+ARTIKEL YANG SUDAH DITULIS (jangan ulangi topik yang sama persis):
+1. Merencanakan Strategi Menuju Permanent Resident
+2. Bebas Pindah Kerja Tapi Jalur PR Kamu Bisa Hancur
+3. Memilih Employer yang PR-Friendly Sejak Awal
+4. Tax File Number, Superannuation, dan Satu Kesalahan yang Bikin Kamu Rugi Ribuan Dolar
+5. Skenario Terburuk Saya Ternyata adalah Kehidupan Normal Orang Lain
+6. Kenapa Financial Freedom Lebih Sulit Dicapai di Australia
+7. Gelar Australia Itu Sebenarnya Masih Berharga Tapi Bukan untuk Alasan yang Kamu Kira
+8. Kalau Kamu Mulai dari Nol Hari Ini Berapa Tahun Lagi Kamu Bisa Dapat PR di Australia
+9. Banyak yang Pulang ke Indonesia dengan Tangan Penuh tapi Kepala Kosong
+10. Semua Orang Datang ke Australia dengan Rencana — Yang Tidak Pernah Direncanakan Justru yang Paling Berharga
+`;
+
+const SYSTEM_PROMPT = `Kamu adalah editorial agent untuk newsletter "Migrasi Strategis" milik Steven Effendi Halim.
+
+${STEVEN_CONTEXT}
 
 TENTANG NEWSLETTER:
 - Nama: Migrasi Strategis
 - Platform: Substack, berbahasa Indonesia
 - Deskripsi resmi: "Sharing cerita dan opini yang lebih mendalam seputar pelajaran hidup di Australia"
-- Target pembaca: Siapapun yang tinggal atau berencana tinggal di Australia (bukan hanya yang kejar PR)
-- Konten mencakup: perjalanan visa, PR strategy, kehidupan sehari-hari, karir, finansial, pengalaman personal, dan pelajaran hidup
+- Target pembaca: Siapapun yang tinggal atau berencana tinggal di Australia
+- Konten: perjalanan visa, PR strategy, kehidupan sehari-hari, karir, finansial, pengalaman personal
 
 GAYA PENULISAN:
 - Tone: Strategis dan analitis, tapi terasa seperti ngobrol bukan artikel blog
 - Kalimat pendek, paragraf putus-putus
 - Tidak menggunakan tanda hubung (em-dash) dalam prosa
 - Tidak menggunakan tabel
-- Bullet points boleh digunakan kalau membantu menjelaskan topik dengan lebih baik
-- Bahasa Indonesia yang natural dan conversational, boleh campurkan kata Inggris yang umum dipakai
-- Tidak terlalu formal, tidak terlalu santai
+- Bullet points boleh digunakan kalau membantu menjelaskan dengan lebih baik
+- Bahasa Indonesia natural, boleh campur kata Inggris yang umum dipakai
 
 STRUKTUR ARTIKEL:
-- Satu pesan utama per artikel (tidak boleh ada dua pesan yang bertabrakan)
-- Pembuka yang kuat (hook), bisa berupa cerita personal atau observasi yang relatable
-- Tengah: analisis, data, atau narasi yang membangun argumen
-- Ending selalu resolusi yang jelas, bukan pertanyaan terbuka
-- CTA di akhir selalu ajakan subscribe, bukan ajakan komentar
+- Satu pesan utama per artikel
+- Pembuka kuat: cerita personal atau observasi yang relatable
+- Tengah: analisis atau narasi yang membangun argumen
+- Ending: resolusi yang jelas, bukan pertanyaan terbuka
+- CTA di akhir: ajakan subscribe, bukan ajakan komentar
 
-PROSES KAMU TERDIRI DARI 3 FASE:
+TUGASMU:
+Kamu menerima jawaban dari 5 pertanyaan yang sudah diisi Steven lewat form.
+Prosesmu adalah:
 
-FASE 1 - INTERVIEW:
-Ajukan pertanyaan satu per satu untuk menggali:
-- Topik dan angle yang mau dibahas
-- Pesan utama yang ingin disampaikan
-- Target pembaca spesifik untuk artikel ini
-- Pengalaman atau data personal yang bisa digunakan
-- Tone yang diinginkan untuk artikel ini
-Jangan ajukan semua pertanyaan sekaligus. Satu pertanyaan per giliran, ikuti alur percakapan secara natural.
-Setelah kamu merasa punya cukup informasi (biasanya 4-6 pertanyaan), lanjut ke Fase 2.
+FASE 1 - KRITIK DAN ALIGNMENT:
+Sebelum menulis apapun, kamu harus:
+1. Rangkum apa yang kamu tangkap: topik, angle, pesan utama
+2. Kritisi secara jujur dan langsung: apakah pesannya jelas? Ada konflik pesan? Sesuai untuk audiens? Ada data yang perlu diverifikasi?
+3. Kalau ada masalah, katakan dengan jelas dan ajukan saran perbaikan
+4. Tanya konfirmasi sebelum lanjut ke draft
+Gunakan label [RANGKUMAN] dan [CATATAN EDITORIAL] dalam responsmu.
 
-FASE 2 - KRITIK DAN ALIGNMENT:
-Sebelum menulis apapun:
-1. Rangkum apa yang kamu tangkap dari interview: topik, angle, pesan utama
-2. Kritisi secara jujur: apakah pesannya jelas? Ada konflik pesan? Sesuai untuk audiens? Ada inkonsistensi data?
-3. Ajukan saran perbaikan kalau ada
-4. Minta konfirmasi dari Steven sebelum lanjut ke draft
-Gunakan format: [RANGKUMAN INTERVIEW] dan [CATATAN EDITORIAL] dalam respons kamu.
-
-FASE 3 - DRAFT:
-Setelah Steven approve angle-nya:
+FASE 2 - DRAFT:
+Setelah Steven approve:
 1. Tulis draft lengkap dalam format plain text Substack
-2. Gunakan semua prinsip editorial di atas
+2. Terapkan semua prinsip editorial di atas
 3. Akhiri dengan CTA subscribe
-4. Setelah draft selesai, tambahkan [CATATAN EDITORIAL] singkat tentang keputusan penulisan yang kamu buat
+4. Tambahkan [CATATAN PENULISAN] singkat setelah draft
 
 PENTING:
 - Jadilah sparring partner yang kritis, bukan asisten yang selalu setuju
-- Kalau ada masalah dengan angle atau pesan, katakan dengan jujur sebelum menulis
-- Selalu prioritaskan kejelasan pesan di atas kelengkapan informasi
-- Jaga konsistensi dengan artikel-artikel sebelumnya`;
+- Prioritaskan kejelasan pesan di atas kelengkapan informasi
+- Kalau angle lemah, katakan sebelum menulis
+- Jangan ulangi angle yang sudah dipakai di 10 artikel sebelumnya`;
 
-function startAgent() {
-  const input = document.getElementById('api-key-input');
-  const key = input.value.trim();
+// ─── QUESTIONS ───────────────────────────────────────────────────────────────
+const QUESTIONS = {
+  narrative: {
+    desc: 'Cerita dan pengalaman hidup yang mengandung pelajaran. Cocok untuk artikel yang dipicu oleh sesuatu yang kamu alami, lihat, atau rasakan.',
+    items: [
+      { label: 'Cerita atau pengalaman apa yang ingin kamu bagikan?', hint: 'Ceritakan secara bebas, tidak perlu rapi.' },
+      { label: 'Apa momen atau observasi yang memicu kamu ingin menulis ini?', hint: 'Bisa dari percakapan, berita, atau sesuatu yang kamu lihat belakangan ini.' },
+      { label: 'Pelajaran utama apa yang ingin pembaca bawa pulang?', hint: 'Satu kalimat saja. Kalau lebih dari satu, pilih yang paling penting.' },
+      { label: 'Ada data, referensi, atau cerita orang lain yang bisa memperkuat tulisan ini?', hint: 'Boleh kosong kalau tidak ada.' },
+      { label: 'Siapa pembaca spesifik yang kamu bayangkan saat menulis ini?', hint: 'Contoh: orang yang baru WHV, yang sudah jenuh di Australia, yang mau pulang ke Indo.' },
+    ]
+  },
+  strategic: {
+    desc: 'Analisis dan informasi praktis tentang navigasi kehidupan di Australia. Cocok untuk artikel yang dipicu oleh data, observasi tren, atau pertanyaan yang sering muncul dari audiens.',
+    items: [
+      { label: 'Topik atau isu spesifik apa yang mau kamu bahas?', hint: 'Semakin spesifik semakin baik.' },
+      { label: 'Apa yang biasanya salah dipahami orang tentang topik ini?', hint: 'Ini biasanya menjadi hook yang kuat.' },
+      { label: 'Apa satu kesimpulan atau rekomendasi utama yang ingin kamu sampaikan?', hint: 'Kalau pembaca hanya ingat satu hal dari artikel ini, apa itu?' },
+      { label: 'Ada pengalaman personal atau contoh nyata yang bisa dipakai sebagai ilustrasi?', hint: 'Cerita dari kamu sendiri atau orang yang kamu kenal langsung lebih kuat dari data abstrak.' },
+      { label: 'Siapa pembaca spesifik yang paling butuh informasi ini?', hint: 'Contoh: pemegang WHV yang mau cari sponsor, fresh graduate yang mau apply 485.' },
+    ]
+  }
+};
+
+// ─── STATE ────────────────────────────────────────────────────────────────────
+let apiKey = '';
+let conversationHistory = [];
+let currentCategory = 'narrative';
+let currentPhase = 'form';
+
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+function startApp() {
+  const key = document.getElementById('api-key-input').value.trim();
   const errorEl = document.getElementById('api-error');
-
   if (!key.startsWith('sk-ant-')) {
-    errorEl.textContent = 'API key tidak valid. Pastikan dimulai dengan "sk-ant-"';
+    errorEl.textContent = 'API key tidak valid. Harus dimulai dengan "sk-ant-"';
     errorEl.style.display = 'block';
     return;
   }
-
   apiKey = key;
   errorEl.style.display = 'none';
   document.getElementById('setup-screen').style.display = 'none';
-  document.getElementById('chat-screen').style.display = 'flex';
-
-  addAgentMessage('Halo, Steven. Saya siap membantu kamu menulis newsletter minggu ini.\n\nTopik apa yang mau kamu bahas? Ceritakan dulu secara bebas, ide awalnya seperti apa.');
-  setQuickActions(['Saya sudah punya topik', 'Bantu saya brainstorm dulu', 'Lanjutkan dari minggu lalu']);
+  document.getElementById('app-screen').style.display = 'flex';
+  renderQuestions();
 }
 
-function resetSession() {
-  if (!confirm('Mulai sesi baru? Percakapan saat ini akan dihapus.')) return;
-  conversationHistory = [];
-  currentPhase = 'interview';
-  interviewCount = 0;
-  draftContent = '';
-  document.getElementById('chat-container').innerHTML = '';
-  document.getElementById('phase-label').textContent = 'Interview';
-  document.getElementById('phase-label').style.background = '';
-  document.getElementById('phase-label').style.color = '';
-  addAgentMessage('Halo, Steven. Saya siap membantu kamu menulis newsletter minggu ini.\n\nTopik apa yang mau kamu bahas? Ceritakan dulu secara bebas, ide awalnya seperti apa.');
-  setQuickActions(['Saya sudah punya topik', 'Bantu saya brainstorm dulu', 'Lanjutkan dari minggu lalu']);
+function setCategory(cat) {
+  currentCategory = cat;
+  document.getElementById('btn-narrative').classList.toggle('active', cat === 'narrative');
+  document.getElementById('btn-strategic').classList.toggle('active', cat === 'strategic');
+  document.getElementById('cat-desc').textContent = QUESTIONS[cat].desc;
+  renderQuestions();
 }
 
-function setQuickActions(actions) {
-  const container = document.getElementById('quick-actions');
-  container.innerHTML = '';
-  actions.forEach(action => {
-    const btn = document.createElement('button');
-    btn.className = 'quick-btn';
-    btn.textContent = action;
-    btn.onclick = () => {
-      document.getElementById('user-input').value = action;
-      sendMessage();
-    };
-    container.appendChild(btn);
+function renderQuestions() {
+  const list = document.getElementById('questions-list');
+  list.innerHTML = '';
+  QUESTIONS[currentCategory].items.forEach((q, i) => {
+    const div = document.createElement('div');
+    div.className = 'question-item';
+    div.innerHTML = `
+      <label>${i + 1}. ${q.label}
+        <span class="q-hint">${q.hint}</span>
+      </label>
+      <textarea id="q${i}" placeholder="Jawaban kamu..."></textarea>
+    `;
+    list.appendChild(div);
   });
+  updatePhase('Pilih Kategori');
 }
 
-function clearQuickActions() {
-  document.getElementById('quick-actions').innerHTML = '';
+function resetToForm() {
+  if (!confirm('Mulai artikel baru? Draft saat ini akan hilang.')) return;
+  conversationHistory = [];
+  currentPhase = 'form';
+  document.getElementById('chat-container').innerHTML = '';
+  document.getElementById('chat-screen').style.display = 'none';
+  document.getElementById('form-screen').style.display = 'block';
+  document.getElementById('user-input').value = '';
+  renderQuestions();
+  updatePhase('Pilih Kategori');
 }
 
-function addAgentMessage(text, hasDraft = false, hasCritique = false) {
-  const container = document.getElementById('chat-container');
-  const msgDiv = document.createElement('div');
-  msgDiv.className = 'message agent';
+// ─── FORM SUBMIT ──────────────────────────────────────────────────────────────
+async function submitForm() {
+  const questions = QUESTIONS[currentCategory].items;
+  const answers = [];
+  let allFilled = true;
 
-  const avatar = document.createElement('div');
-  avatar.className = 'avatar agent';
-  avatar.textContent = 'MS';
+  questions.forEach((q, i) => {
+    const val = document.getElementById(`q${i}`).value.trim();
+    if (!val && i < 3) allFilled = false;
+    answers.push({ question: q.label, answer: val || '(tidak diisi)' });
+  });
 
-  const bubble = document.createElement('div');
-  bubble.className = 'bubble';
-
-  if (hasDraft) {
-    const parts = text.split('[DRAFT_START]');
-    if (parts.length > 1) {
-      const beforeDraft = parts[0];
-      const rest = parts[1].split('[DRAFT_END]');
-      const draftText = rest[0];
-      const afterDraft = rest[1] || '';
-
-      if (beforeDraft.trim()) {
-        bubble.appendChild(createTextNodes(beforeDraft));
-      }
-
-      const draftHeader = document.createElement('div');
-      draftHeader.className = 'draft-header';
-      draftHeader.textContent = 'Draft Newsletter';
-
-      const draftBox = document.createElement('div');
-      draftBox.className = 'draft-box';
-      draftBox.textContent = draftText.trim();
-
-      const copyBtn = document.createElement('button');
-      copyBtn.className = 'copy-btn';
-      copyBtn.innerHTML = '&#128203; Salin Draft';
-      copyBtn.onclick = () => {
-        navigator.clipboard.writeText(draftText.trim()).then(() => {
-          copyBtn.textContent = '✓ Tersalin';
-          copyBtn.classList.add('copied');
-          setTimeout(() => {
-            copyBtn.innerHTML = '&#128203; Salin Draft';
-            copyBtn.classList.remove('copied');
-          }, 2000);
-        });
-      };
-
-      bubble.appendChild(draftHeader);
-      bubble.appendChild(draftBox);
-      bubble.appendChild(copyBtn);
-
-      if (afterDraft.trim()) {
-        bubble.appendChild(createTextNodes(afterDraft));
-      }
-    } else {
-      bubble.appendChild(createTextNodes(text));
-    }
-  } else if (hasCritique) {
-    const parts = text.split('[CRITIQUE_START]');
-    if (parts.length > 1) {
-      const beforeCritique = parts[0];
-      const rest = parts[1].split('[CRITIQUE_END]');
-      const critiqueText = rest[0];
-      const afterCritique = rest[1] || '';
-
-      if (beforeCritique.trim()) {
-        bubble.appendChild(createTextNodes(beforeCritique));
-      }
-
-      const critiqueHeader = document.createElement('div');
-      critiqueHeader.className = 'critique-header';
-      critiqueHeader.textContent = 'Catatan Editorial';
-
-      const critiqueBox = document.createElement('div');
-      critiqueBox.className = 'critique-box';
-      critiqueBox.appendChild(createTextNodes(critiqueText.trim()));
-
-      bubble.appendChild(critiqueHeader);
-      bubble.appendChild(critiqueBox);
-
-      if (afterCritique.trim()) {
-        bubble.appendChild(createTextNodes(afterCritique));
-      }
-    } else {
-      bubble.appendChild(createTextNodes(text));
-    }
-  } else {
-    bubble.appendChild(createTextNodes(text));
+  if (!allFilled) {
+    alert('Mohon isi minimal 3 pertanyaan pertama.');
+    return;
   }
 
-  msgDiv.appendChild(avatar);
-  msgDiv.appendChild(bubble);
-  container.appendChild(msgDiv);
-  container.scrollTop = container.scrollHeight;
+  const categoryLabel = currentCategory === 'narrative' ? 'Personal Narrative' : 'Strategic Insight';
+  const formattedAnswers = answers.map((a, i) =>
+    `Pertanyaan ${i + 1}: ${a.question}\nJawaban: ${a.answer}`
+  ).join('\n\n');
+
+  const userMessage = `Kategori artikel: ${categoryLabel}\n\n${formattedAnswers}`;
+
+  document.getElementById('form-screen').style.display = 'none';
+  document.getElementById('chat-screen').style.display = 'flex';
+  updatePhase('Review');
+
+  conversationHistory = [{ role: 'user', content: userMessage }];
+
+  addUserBubble(`[Form dikirim — Kategori: ${categoryLabel}]`);
+  showTyping();
+  document.getElementById('send-btn').disabled = true;
+
+  try {
+    const res = await callAPI(conversationHistory);
+    hideTyping();
+    const text = res.content[0].text;
+    conversationHistory.push({ role: 'assistant', content: text });
+    addAgentBubble(text);
+    updatePhase('Review');
+  } catch (e) {
+    hideTyping();
+    addAgentBubble('Terjadi error saat menghubungi API. Coba lagi.');
+  }
+
+  document.getElementById('send-btn').disabled = false;
 }
 
-function createTextNodes(text) {
-  const fragment = document.createDocumentFragment();
-  const paragraphs = text.split('\n\n');
-  paragraphs.forEach((para, i) => {
-    if (para.trim()) {
-      const p = document.createElement('p');
-      p.innerHTML = para.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-      fragment.appendChild(p);
-    }
-  });
-  return fragment;
-}
-
-function addUserMessage(text) {
-  const container = document.getElementById('chat-container');
-  const msgDiv = document.createElement('div');
-  msgDiv.className = 'message user';
-
-  const avatar = document.createElement('div');
-  avatar.className = 'avatar user';
-  avatar.textContent = 'S';
-
-  const bubble = document.createElement('div');
-  bubble.className = 'bubble';
-  const p = document.createElement('p');
-  p.textContent = text;
-  bubble.appendChild(p);
-
-  msgDiv.appendChild(avatar);
-  msgDiv.appendChild(bubble);
-  container.appendChild(msgDiv);
-  container.scrollTop = container.scrollHeight;
-}
-
-function showTyping() {
-  const container = document.getElementById('chat-container');
-  const typingDiv = document.createElement('div');
-  typingDiv.className = 'message agent';
-  typingDiv.id = 'typing-indicator';
-
-  const avatar = document.createElement('div');
-  avatar.className = 'avatar agent';
-  avatar.textContent = 'MS';
-
-  const dots = document.createElement('div');
-  dots.className = 'typing-dots';
-  dots.innerHTML = '<span></span><span></span><span></span>';
-
-  typingDiv.appendChild(avatar);
-  typingDiv.appendChild(dots);
-  container.appendChild(typingDiv);
-  container.scrollTop = container.scrollHeight;
-}
-
-function hideTyping() {
-  const indicator = document.getElementById('typing-indicator');
-  if (indicator) indicator.remove();
-}
-
-function updatePhaseLabel(phase) {
-  const label = document.getElementById('phase-label');
-  const labels = {
-    'interview': { text: 'Interview', bg: 'var(--accent-light)', color: 'var(--accent)', border: '1px solid var(--accent-border)' },
-    'critique': { text: 'Review', bg: '#FFF3E0', color: '#8B6520', border: '1px solid #E8D5B8' },
-    'draft': { text: 'Draft', bg: '#E8F4FD', color: '#1A5276', border: '1px solid #B8D4E8' }
-  };
-  const config = labels[phase] || labels['interview'];
-  label.textContent = config.text;
-  label.style.background = config.bg;
-  label.style.color = config.color;
-  label.style.border = config.border;
-}
-
+// ─── CHAT ─────────────────────────────────────────────────────────────────────
 async function sendMessage() {
   const input = document.getElementById('user-input');
   const text = input.value.trim();
   if (!text) return;
 
-  clearQuickActions();
-  addUserMessage(text);
   input.value = '';
   input.style.height = 'auto';
-
+  addUserBubble(text);
   conversationHistory.push({ role: 'user', content: text });
 
   document.getElementById('send-btn').disabled = true;
   showTyping();
 
   try {
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-direct-browser-access': 'true'
-      },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-5',
-        max_tokens: 4000,
-        system: SYSTEM_PROMPT,
-        messages: conversationHistory
-      })
-    });
-
-    const data = await response.json();
-
-    if (data.error) {
-      hideTyping();
-      addAgentMessage('Terjadi error: ' + data.error.message);
-      document.getElementById('send-btn').disabled = false;
-      return;
-    }
-
-    const assistantText = data.content[0].text;
+    const res = await callAPI(conversationHistory);
+    hideTyping();
+    const assistantText = res.content[0].text;
     conversationHistory.push({ role: 'assistant', content: assistantText });
+    addAgentBubble(assistantText);
 
-    hideTyping();
-
-    const hasDraft = assistantText.includes('[DRAFT_START]');
-    const hasCritique = assistantText.includes('[CRITIQUE_START]') || assistantText.includes('[CATATAN EDITORIAL]') || assistantText.includes('[RANGKUMAN INTERVIEW]');
-
-    if (hasDraft) {
-      currentPhase = 'draft';
-      updatePhaseLabel('draft');
-      addAgentMessage(assistantText, true, false);
-      setQuickActions(['Saya suka draft ini', 'Tolong revisi bagian ini', 'Ubah judulnya', 'Buat versi Threads-nya']);
-    } else if (hasCritique || assistantText.includes('[RANGKUMAN') || assistantText.includes('RANGKUMAN INTERVIEW')) {
-      currentPhase = 'critique';
-      updatePhaseLabel('critique');
-      addAgentMessage(assistantText, false, false);
-      setQuickActions(['Saya setuju, lanjut ke draft', 'Ada yang perlu saya koreksi', 'Ubah angle-nya']);
-    } else {
-      if (currentPhase === 'interview') {
-        interviewCount++;
-        if (interviewCount >= 4) {
-          setQuickActions(['Langsung ke review angle', 'Saya mau tambah info dulu']);
-        }
-      }
-      addAgentMessage(assistantText, false, false);
+    if (assistantText.includes('[DRAFT]') || assistantText.toLowerCase().includes('draft newsletter')) {
+      updatePhase('Draft');
     }
-
-  } catch (err) {
+  } catch (e) {
     hideTyping();
-    addAgentMessage('Terjadi kesalahan koneksi. Pastikan API key kamu valid dan coba lagi.');
-    console.error(err);
+    addAgentBubble('Terjadi error. Pastikan API key valid dan coba lagi.');
   }
 
   document.getElementById('send-btn').disabled = false;
-  document.getElementById('chat-container').scrollTop = document.getElementById('chat-container').scrollHeight;
+  scrollBottom();
+}
+
+async function callAPI(messages) {
+  const res = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': apiKey,
+      'anthropic-version': '2023-06-01',
+      'anthropic-dangerous-direct-browser-access': 'true'
+    },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-5',
+      max_tokens: 4000,
+      system: SYSTEM_PROMPT,
+      messages
+    })
+  });
+  const data = await res.json();
+  if (data.error) throw new Error(data.error.message);
+  return data;
+}
+
+// ─── RENDER MESSAGES ──────────────────────────────────────────────────────────
+function addUserBubble(text) {
+  const container = document.getElementById('chat-container');
+  const div = document.createElement('div');
+  div.className = 'message user';
+  div.innerHTML = `
+    <div class="avatar user">S</div>
+    <div class="bubble"><p>${escHtml(text)}</p></div>
+  `;
+  container.appendChild(div);
+  scrollBottom();
+}
+
+function addAgentBubble(text) {
+  const container = document.getElementById('chat-container');
+  const div = document.createElement('div');
+  div.className = 'message agent';
+
+  const avatar = document.createElement('div');
+  avatar.className = 'avatar agent';
+  avatar.textContent = 'MS';
+
+  const bubble = document.createElement('div');
+  bubble.className = 'bubble';
+
+  // Check for draft block
+  const draftMatch = text.match(/\[DRAFT\]([\s\S]*?)\[\/DRAFT\]/);
+  if (draftMatch) {
+    const before = text.slice(0, text.indexOf('[DRAFT]'));
+    const draftText = draftMatch[1].trim();
+    const after = text.slice(text.indexOf('[/DRAFT]') + 8);
+
+    if (before.trim()) bubble.appendChild(renderText(before));
+
+    const draftHeader = document.createElement('div');
+    draftHeader.className = 'draft-header';
+    draftHeader.textContent = 'Draft Newsletter';
+
+    const draftBox = document.createElement('div');
+    draftBox.className = 'draft-box';
+    draftBox.textContent = draftText;
+
+    const actionRow = document.createElement('div');
+    actionRow.className = 'action-row';
+
+    const copyBtn = document.createElement('button');
+    copyBtn.className = 'action-btn copy';
+    copyBtn.textContent = 'Salin Draft';
+    copyBtn.onclick = () => {
+      navigator.clipboard.writeText(draftText).then(() => {
+        copyBtn.textContent = '✓ Tersalin';
+        setTimeout(() => { copyBtn.textContent = 'Salin Draft'; }, 2000);
+      });
+    };
+
+    const exportBtn = document.createElement('button');
+    exportBtn.className = 'action-btn';
+    exportBtn.textContent = 'Ekspor Sesi';
+    exportBtn.onclick = exportSession;
+
+    actionRow.appendChild(copyBtn);
+    actionRow.appendChild(exportBtn);
+
+    bubble.appendChild(draftHeader);
+    bubble.appendChild(draftBox);
+    bubble.appendChild(actionRow);
+
+    if (after.trim()) bubble.appendChild(renderText(after));
+  } else {
+    bubble.appendChild(renderText(text));
+  }
+
+  div.appendChild(avatar);
+  div.appendChild(bubble);
+  container.appendChild(div);
+  scrollBottom();
+}
+
+function renderText(text) {
+  const frag = document.createDocumentFragment();
+  const paras = text.split(/\n\n+/);
+  paras.forEach(para => {
+    if (!para.trim()) return;
+
+    if (para.includes('[RANGKUMAN]') || para.includes('[CATATAN EDITORIAL]') || para.includes('[CATATAN PENULISAN]')) {
+      const box = document.createElement('div');
+      box.className = 'critique-box';
+      const header = document.createElement('div');
+      header.className = 'critique-header';
+      header.textContent = para.includes('[RANGKUMAN]') ? 'Rangkuman' : 'Catatan Editorial';
+      const content = document.createElement('p');
+      content.innerHTML = para
+        .replace(/\[RANGKUMAN\]|\[CATATAN EDITORIAL\]|\[CATATAN PENULISAN\]/g, '')
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\n/g, '<br>');
+      box.appendChild(header);
+      box.appendChild(content);
+      frag.appendChild(box);
+    } else {
+      const p = document.createElement('p');
+      p.innerHTML = para
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\n/g, '<br>');
+      frag.appendChild(p);
+    }
+  });
+  return frag;
+}
+
+function showTyping() {
+  const container = document.getElementById('chat-container');
+  const div = document.createElement('div');
+  div.className = 'message agent';
+  div.id = 'typing';
+  div.innerHTML = `
+    <div class="avatar agent">MS</div>
+    <div class="typing-dots"><span></span><span></span><span></span></div>
+  `;
+  container.appendChild(div);
+  scrollBottom();
+}
+
+function hideTyping() {
+  const el = document.getElementById('typing');
+  if (el) el.remove();
+}
+
+// ─── EXPORT ───────────────────────────────────────────────────────────────────
+function exportSession() {
+  const lines = conversationHistory.map(m =>
+    `[${m.role.toUpperCase()}]\n${m.content}\n`
+  ).join('\n---\n\n');
+
+  const blob = new Blob([lines], { type: 'text/plain' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `migrasi-strategis-${new Date().toISOString().slice(0,10)}.txt`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// ─── UTILS ────────────────────────────────────────────────────────────────────
+function updatePhase(label) {
+  document.getElementById('phase-label').textContent = label;
+}
+
+function scrollBottom() {
+  const c = document.getElementById('chat-container');
+  if (c) c.scrollTop = c.scrollHeight;
 }
 
 function handleKey(e) {
-  if (e.key === 'Enter' && !e.shiftKey) {
-    e.preventDefault();
-    sendMessage();
-  }
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
 }
 
 function autoResize(el) {
   el.style.height = 'auto';
   el.style.height = Math.min(el.scrollHeight, 180) + 'px';
+}
+
+function escHtml(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 </script>
 </body>
